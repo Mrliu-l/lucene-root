@@ -58,7 +58,7 @@ public class SearchFiles {
     }
 
     String index = "/Users/admin/work/go_workspace/src/github/opendistro/lucene/lucene/demo/src/java/org/apache/lucene/demo/indexFile";
-    String field = "path";
+    String field = "contents";
     String queries = null;
     int repeat = 0;
     boolean raw = false;
