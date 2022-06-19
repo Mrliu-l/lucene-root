@@ -80,8 +80,8 @@ public class IndexFiles implements AutoCloseable {
             + "This indexes the documents in DOCS_PATH, creating a Lucene index"
             + "in INDEX_PATH that can be searched with SearchFiles\n"
             + "IF DICT_PATH contains a KnnVector dictionary, the index will also support KnnVector search";
-    String indexPath = "index";
-    String docsPath = null;
+    String indexPath = "/Users/admin/work/go_workspace/src/github/opendistro/lucene/lucene/demo/src/java/org/apache/lucene/demo/indexFile";
+    String docsPath = "/Users/admin/work/go_workspace/src/github/opendistro/lucene/lucene/demo/src/java/org/apache/lucene/demo/docsFile";
     String vectorDictSource = null;
     boolean create = true;
     for (int i = 0; i < args.length; i++) {
@@ -250,10 +250,15 @@ public class IndexFiles implements AutoCloseable {
       // so that the text of the file is tokenized and indexed, but not stored.
       // Note that FileReader expects the file to be in UTF-8 encoding.
       // If that's not the case searching for special characters will fail.
-      doc.add(
-          new TextField(
-              "contents",
-              new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))));
+
+      // contents开启source
+      String content = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8)).readLine();
+      doc.add(new TextField("contents", content, Field.Store.YES));
+      // contents不开启source
+//      doc.add(
+//          new TextField(
+//              "contents",
+//              new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))));
 
       if (demoEmbeddings != null) {
         try (InputStream in = Files.newInputStream(file)) {

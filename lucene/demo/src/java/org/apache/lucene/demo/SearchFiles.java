@@ -57,8 +57,8 @@ public class SearchFiles {
       System.exit(0);
     }
 
-    String index = "index";
-    String field = "contents";
+    String index = "/Users/admin/work/go_workspace/src/github/opendistro/lucene/lucene/demo/src/java/org/apache/lucene/demo/indexFile";
+    String field = "path";
     String queries = null;
     int repeat = 0;
     boolean raw = false;
@@ -212,6 +212,9 @@ public class SearchFiles {
         }
 
         Document doc = searcher.doc(hits[i].doc);
+        // 将contents的内容添加到返回值中
+        String contents = doc.get("contents");
+        System.out.println((i + 1) + ". " + contents);
         String path = doc.get("path");
         if (path != null) {
           System.out.println((i + 1) + ". " + path);
