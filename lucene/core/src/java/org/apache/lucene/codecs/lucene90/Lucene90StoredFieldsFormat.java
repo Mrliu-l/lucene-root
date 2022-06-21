@@ -157,6 +157,7 @@ public class Lucene90StoredFieldsFormat extends StoredFieldsFormat {
   StoredFieldsFormat impl(Mode mode) {
     switch (mode) {
       case BEST_SPEED:
+        System.out.println("每个chunk最多有1024个doc，默认8k大小");
         return new Lucene90CompressingStoredFieldsFormat(
             "Lucene90StoredFieldsFastData", BEST_SPEED_MODE, BEST_SPEED_BLOCK_LENGTH, 1024, 10);
       case BEST_COMPRESSION:

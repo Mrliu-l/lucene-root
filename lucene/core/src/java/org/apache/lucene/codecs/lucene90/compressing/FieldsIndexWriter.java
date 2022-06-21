@@ -111,6 +111,7 @@ public final class FieldsIndexWriter implements Closeable {
     CodecUtil.writeFooter(filePointersOut);
     IOUtils.close(docsOut, filePointersOut);
 
+    System.out.println("log step; fdt文件生成");
     try (IndexOutput dataOut =
         dir.createOutput(IndexFileNames.segmentFileName(name, suffix, extension), ioContext)) {
       CodecUtil.writeIndexHeader(dataOut, codecName + "Idx", VERSION_CURRENT, id, suffix);

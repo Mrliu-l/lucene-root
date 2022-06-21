@@ -112,6 +112,7 @@ public final class Lucene90BlockTreeTermsReader extends FieldsProducer {
   final int version;
 
   /** Sole constructor. */
+  // 写文件动作  MARK-liu
   public Lucene90BlockTreeTermsReader(PostingsReaderBase postingsReader, SegmentReadState state)
       throws IOException {
     boolean success = false;
@@ -120,6 +121,7 @@ public final class Lucene90BlockTreeTermsReader extends FieldsProducer {
     this.segment = state.segmentInfo.name;
 
     try {
+      // .tim
       String termsName =
           IndexFileNames.segmentFileName(segment, state.segmentSuffix, TERMS_EXTENSION);
       termsIn = state.directory.openInput(termsName, state.context);
@@ -132,6 +134,7 @@ public final class Lucene90BlockTreeTermsReader extends FieldsProducer {
               state.segmentInfo.getId(),
               state.segmentSuffix);
 
+      // .tip
       String indexName =
           IndexFileNames.segmentFileName(segment, state.segmentSuffix, TERMS_INDEX_EXTENSION);
       indexIn = state.directory.openInput(indexName, state.context);
@@ -143,6 +146,7 @@ public final class Lucene90BlockTreeTermsReader extends FieldsProducer {
           state.segmentInfo.getId(),
           state.segmentSuffix);
 
+      // .tmd
       // Read per-field details
       String metaName =
           IndexFileNames.segmentFileName(segment, state.segmentSuffix, TERMS_META_EXTENSION);
@@ -159,6 +163,7 @@ public final class Lucene90BlockTreeTermsReader extends FieldsProducer {
               version,
               state.segmentInfo.getId(),
               state.segmentSuffix);
+          // 开始写入 tip\tim\tmd文件 liu
           indexMetaIn = termsMetaIn = metaIn;
           postingsReader.init(metaIn, state);
 

@@ -121,16 +121,20 @@ public class LiveIndexWriterConfig {
     mergedSegmentWarmer = null;
     delPolicy = new KeepOnlyLastCommitDeletionPolicy();
     commit = null;
+    // 新写入段的复合文件开关
     useCompoundFile = IndexWriterConfig.DEFAULT_USE_COMPOUND_FILE_SYSTEM;
     openMode = OpenMode.CREATE_OR_APPEND;
     similarity = IndexSearcher.getDefaultSimilarity();
     mergeScheduler = new ConcurrentMergeScheduler();
+
+    // 默认使用 Lucene92
     codec = Codec.getDefault();
     if (codec == null) {
       throw new NullPointerException();
     }
     infoStream = InfoStream.getDefault();
     mergePolicy = new TieredMergePolicy();
+    // flushPolicy; MARK-liu
     flushPolicy = new FlushByRamOrCountsPolicy();
     readerPooling = IndexWriterConfig.DEFAULT_READER_POOLING;
     perThreadHardLimitMB = IndexWriterConfig.DEFAULT_RAM_PER_THREAD_HARD_LIMIT_MB;

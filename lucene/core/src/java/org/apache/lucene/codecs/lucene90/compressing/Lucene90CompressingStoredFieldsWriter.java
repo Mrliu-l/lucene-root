@@ -187,6 +187,7 @@ public final class Lucene90CompressingStoredFieldsWriter extends StoredFieldsWri
     numStoredFieldsInDoc = 0;
     endOffsets[numBufferedDocs] = Math.toIntExact(bufferedDocs.size());
     ++numBufferedDocs;
+    System.out.println("log: step; 调整实时写文件fdt\fdm");
     if (triggerFlush()) {
       flush(false);
     }
@@ -222,7 +223,7 @@ public final class Lucene90CompressingStoredFieldsWriter extends StoredFieldsWri
   }
 
   private boolean triggerFlush() {
-    return bufferedDocs.size() >= chunkSize
+    return bufferedDocs.size() >= 0
         || // chunks of at least chunkSize bytes
         numBufferedDocs >= maxDocsPerChunk;
   }

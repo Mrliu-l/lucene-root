@@ -402,6 +402,7 @@ public final class Lucene90PostingsFormat extends PostingsFormat {
     return getName();
   }
 
+  // MARK-liu
   @Override
   public FieldsConsumer fieldsConsumer(SegmentWriteState state) throws IOException {
     PostingsWriterBase postingsWriter = new Lucene90PostingsWriter(state);

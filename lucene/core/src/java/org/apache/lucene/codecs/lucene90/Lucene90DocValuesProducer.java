@@ -104,6 +104,7 @@ final class Lucene90DocValuesProducer extends DocValuesProducer {
       }
     }
 
+    System.out.println("log: dvd、dvm文件");
     String dataName =
         IndexFileNames.segmentFileName(state.segmentInfo.name, state.segmentSuffix, dataExtension);
     this.data = state.directory.openInput(dataName, state.context);

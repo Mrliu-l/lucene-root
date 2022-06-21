@@ -87,6 +87,7 @@ public final class Lucene90CompoundFormat extends CompoundFormat {
 
   @Override
   public void write(Directory dir, SegmentInfo si, IOContext context) throws IOException {
+    System.out.println("lig: cfs、cfe文件");
     String dataFile = IndexFileNames.segmentFileName(si.name, "", DATA_EXTENSION);
     String entriesFile = IndexFileNames.segmentFileName(si.name, "", ENTRIES_EXTENSION);
 

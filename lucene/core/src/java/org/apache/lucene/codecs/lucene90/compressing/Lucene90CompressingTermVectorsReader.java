@@ -131,6 +131,7 @@ public final class Lucene90CompressingTermVectorsReader extends TermVectorsReade
 
     ChecksumIndexInput metaIn = null;
     try {
+      System.out.println("log: tvd、tvx、tvm文件");
       // Open the data file
       final String vectorsStreamFN =
           IndexFileNames.segmentFileName(segment, segmentSuffix, VECTORS_EXTENSION);

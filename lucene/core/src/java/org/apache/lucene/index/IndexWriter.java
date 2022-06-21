@@ -1528,6 +1528,8 @@ public class IndexWriter
     ensureOpen();
     boolean success = false;
     try {
+      //
+      System.out.println("log: step 1 of IndexWrite:maybeProcessEvents");
       final long seqNo = maybeProcessEvents(docWriter.updateDocuments(docs, delNode));
       success = true;
       return seqNo;

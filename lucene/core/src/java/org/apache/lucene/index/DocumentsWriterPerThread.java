@@ -337,6 +337,7 @@ final class DocumentsWriterPerThread implements Accountable {
     return globalUpdates;
   }
 
+  // flush 触发点 MAREK-liu
   /** Flush all pending docs to a new segment */
   FlushedSegment flush(DocumentsWriter.FlushNotifications flushNotifications) throws IOException {
     assert flushPending.get() == Boolean.TRUE;
@@ -536,6 +537,7 @@ final class DocumentsWriterPerThread implements Accountable {
     boolean success = false;
     try {
 
+      // liulei
       if (indexWriterConfig.getUseCompoundFile()) {
         Set<String> originalFiles = newSegment.info.files();
         // TODO: like addIndexes, we are relying on createCompoundFile to successfully cleanup...

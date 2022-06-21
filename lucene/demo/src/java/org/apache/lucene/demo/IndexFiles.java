@@ -80,7 +80,9 @@ public class IndexFiles implements AutoCloseable {
             + "This indexes the documents in DOCS_PATH, creating a Lucene index"
             + "in INDEX_PATH that can be searched with SearchFiles\n"
             + "IF DICT_PATH contains a KnnVector dictionary, the index will also support KnnVector search";
+    // index数据目录（会在改目录下存储lucene的索引文件）
     String indexPath = "/Users/admin/work/go_workspace/src/github/opendistro/lucene/lucene/demo/src/java/org/apache/lucene/demo/indexFile";
+    // 数据源路径（log日志路径）
     String docsPath = "/Users/admin/work/go_workspace/src/github/opendistro/lucene/lucene/demo/src/java/org/apache/lucene/demo/docsFile";
     String vectorDictSource = null;
     boolean create = true;
@@ -111,6 +113,7 @@ public class IndexFiles implements AutoCloseable {
       System.exit(1);
     }
 
+    // 数据源Path（log日志路径）
     final Path docDir = Paths.get(docsPath);
     if (!Files.isReadable(docDir)) {
       System.out.println(
@@ -124,9 +127,11 @@ public class IndexFiles implements AutoCloseable {
     try {
       System.out.println("Indexing to directory '" + indexPath + "'...");
 
+      // 获取索引文件path
       Directory dir = FSDirectory.open(Paths.get(indexPath));
+      // 定义索引的config：分词器、codec等
       Analyzer analyzer = new StandardAnalyzer();
-      IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
+      IndexWriterConfig iwc = new IndexWriterConfig(analyzer); // codec默认使用Lucene92
 
       if (create) {
         // Create a new index in the directory, removing any
@@ -144,6 +149,9 @@ public class IndexFiles implements AutoCloseable {
       //
       // iwc.setRAMBufferSizeMB(256.0);
 
+      //K-nearest neighbor（KNN）搜索可以找到与查询向量最近的 k 个向量（这是由相似度指标来衡量的）
+      //KNN 通常被用来支持推荐引擎和基于自然语言处理（NLP）算法的相关性排名
+      //利用 Lucene的 Codec 扩展机制，实现
       KnnVectorDict vectorDictInstance = null;
       long vectorDictSize = 0;
       if (vectorDictSource != null) {
@@ -154,6 +162,7 @@ public class IndexFiles implements AutoCloseable {
 
       try (IndexWriter writer = new IndexWriter(dir, iwc);
           IndexFiles indexFiles = new IndexFiles(vectorDictInstance)) {
+        // 构建索引文件
         indexFiles.indexDocs(writer, docDir);
 
         // NOTE: if you want to maximize search performance,
@@ -201,6 +210,7 @@ public class IndexFiles implements AutoCloseable {
    * @param path The file to index, or the directory to recurse into to find files to index
    * @throws IOException If there is a low-level I/O error
    */
+  // 构建索引文件
   void indexDocs(final IndexWriter writer, Path path) throws IOException {
     if (Files.isDirectory(path)) {
       Files.walkFileTree(
@@ -234,6 +244,8 @@ public class IndexFiles implements AutoCloseable {
       // field that is indexed (i.e. searchable), but don't tokenize
       // the field into separate words and don't index term frequency
       // or positional information:
+      // 构建doc的field，结合es使用时，此处配置应从es的 index metadata的mapping中获取；
+      // 样例中我们定义三个字段：path，modified，contents
       Field pathField = new StringField("path", file.toString(), Field.Store.YES);
       doc.add(pathField);
 

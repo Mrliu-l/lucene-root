@@ -207,6 +207,7 @@ public final class Lucene90PostingsWriter extends PushPostingsWriterBase {
     competitiveFreqNormAccumulator.clear();
   }
 
+  // 是也term维度进行写入，一个term对应多个docID
   @Override
   public void startDoc(int docID, int termDocFreq) throws IOException {
     // Have collected a block of docs, and get a new doc.
@@ -224,6 +225,7 @@ public final class Lucene90PostingsWriter extends PushPostingsWriterBase {
       competitiveFreqNormAccumulator.clear();
     }
 
+    // 当前docID和block中最后一个docID差值
     final int docDelta = docID - lastDocID;
 
     if (docID < 0 || (docCount > 0 && docDelta <= 0)) {
@@ -231,7 +233,10 @@ public final class Lucene90PostingsWriter extends PushPostingsWriterBase {
           "docs out of order (" + docID + " <= " + lastDocID + " )", docOut);
     }
 
+    // 存储最新的docID(差分压缩id)
     docDeltaBuffer[docBufferUpto] = docDelta;
+    // 词频
+    System.out.println("log: 判读默认情况下是否统计词频");
     if (writeFreqs) {
       freqBuffer[docBufferUpto] = termDocFreq;
     }
@@ -239,6 +244,7 @@ public final class Lucene90PostingsWriter extends PushPostingsWriterBase {
     docBufferUpto++;
     docCount++;
 
+    // buffer阈值
     if (docBufferUpto == BLOCK_SIZE) {
       pforUtil.encode(docDeltaBuffer, docOut);
       if (writeFreqs) {
@@ -253,6 +259,7 @@ public final class Lucene90PostingsWriter extends PushPostingsWriterBase {
     lastPosition = 0;
     lastStartOffset = 0;
 
+    // 是否开启norm
     long norm;
     if (fieldHasNorms) {
       boolean found = norms.advanceExact(docID);
@@ -382,6 +389,7 @@ public final class Lucene90PostingsWriter extends PushPostingsWriterBase {
       }
     }
 
+    // block之前跳跃点处理：对每一个跳跃表的层，先写长度，再写内容即可
     final long lastPosBlockOffset;
 
     if (writePositions) {

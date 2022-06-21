@@ -588,6 +588,7 @@ final class IndexingChain implements Accountable {
     try {
       // 1st pass over doc fields – verify that doc schema matches the index schema
       // build schema for each unique doc field
+      // 校验doc文档内容是否匹配schema
       for (IndexableField field : document) {
         IndexableFieldType fieldType = field.fieldType();
         PerField pf = getOrAddPerField(field.name(), fieldType);
@@ -604,6 +605,7 @@ final class IndexingChain implements Accountable {
       // initialize its FieldInfo.
       // If we have already seen this field, verify that its schema
       // within the current doc matches its schema in the index.
+      // 如果首次出现该field，则初始化fieldInfo；否则校验是否与之前的schema匹配
       for (int i = 0; i < fieldCount; i++) {
         PerField pf = fields[i];
         if (pf.fieldInfo == null) {
@@ -629,6 +631,7 @@ final class IndexingChain implements Accountable {
         for (int i = 0; i < indexedFieldCount; i++) {
           fields[i].finish(docID);
         }
+        System.out.println("log: step");
         finishStoredFields();
         // TODO: for broken docs, optimize termsHash.finishDocument
         try {
@@ -724,6 +727,7 @@ final class IndexingChain implements Accountable {
     boolean indexedField = false;
 
     // Invert indexed fields
+    System.out.println("log: step liu");
     if (fieldType.indexOptions() != IndexOptions.NONE) {
       if (pf.first) { // first time we see this field in this doc
         pf.invert(docID, field, true);

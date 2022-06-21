@@ -123,6 +123,7 @@ public final class Lucene90CompressingStoredFieldsReader extends StoredFieldsRea
     fieldInfos = fn;
     numDocs = si.maxDoc();
 
+    System.out.println("log: fdt、fdx、fdm文件");
     final String fieldsStreamFN =
         IndexFileNames.segmentFileName(segment, segmentSuffix, FIELDS_EXTENSION);
     ChecksumIndexInput metaIn = null;

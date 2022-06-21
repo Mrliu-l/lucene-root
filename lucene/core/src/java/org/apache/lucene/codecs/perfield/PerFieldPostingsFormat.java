@@ -146,6 +146,7 @@ public abstract class PerFieldPostingsFormat extends PostingsFormat {
       this.writeState = writeState;
     }
 
+    // MARK-liu
     @Override
     public void write(Fields fields, NormsProducer norms) throws IOException {
       Map<PostingsFormat, FieldsGroup> formatToGroups = buildFieldsGroupMapping(fields);

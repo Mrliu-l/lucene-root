@@ -645,6 +645,7 @@ final class DocumentsWriter implements Closeable, Accountable {
    * two stage operation; the caller must ensure (in try/finally) that finishFlush
    * is called after this method, to release the flush lock in DWFlushControl
    */
+  // 进行停止时触发的flush MARK-liu
   long flushAllThreads() throws IOException {
     final DocumentsWriterDeleteQueue flushingDeleteQueue;
     if (infoStream.isEnabled("DW")) {
